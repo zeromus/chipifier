@@ -33,20 +33,21 @@ namespace Chipifier
 
 				br = new BinaryReader(new MemoryStream(dataChunk.data));
 				var ms = new MemoryStream();
-				BinaryWriter bw = new BinaryWriter(ms);
 				for (int j = 0; j < nChunks; j++)
 				{
-					string outfile = f + ".bin." + j;
-					StreamWriter sw = new StreamWriter(outfile);
+					string outfile = f + "." + j + ".dmw";
+					FileStream fs = new FileStream(outfile, FileMode.Create, FileAccess.Write, FileShare.None);
+					fs.WriteByte(0x20); fs.WriteByte(0x00); fs.WriteByte(0x00); fs.WriteByte(0x00);
+					fs.WriteByte(0x1F);
 					for (int i = 0; i < 32; i++)
 					{
 						short ssample = br.ReadInt16();
 						int sample = ssample + 16;
 						if(sample>31) sample=31; //clamp in case we overdrived or whatever
 						if (sample < 0) throw new InvalidOperationException("oops minus 0");
-						sw.Write("{0} ",sample);
+						fs.WriteByte((byte)sample);
 					}
-					sw.Close();
+					fs.Close();
 				}
 			
 				rm.WriteFile(f);
