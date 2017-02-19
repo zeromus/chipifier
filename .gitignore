@@ -1,3 +1,4 @@
 /obj
 /*.suo
 *.pdb
+/bin/Release/*.wav*
