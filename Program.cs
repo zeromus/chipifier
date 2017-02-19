@@ -31,6 +31,9 @@ namespace Chipifier
 
 				if (fmt.channels == 2) throw new InvalidOperationException("expected mono file");
 
+				string textoutfile = f + ".txt";
+				StreamWriter sw = new StreamWriter(textoutfile);
+
 				br = new BinaryReader(new MemoryStream(dataChunk.data));
 				var ms = new MemoryStream();
 				for (int j = 0; j < nChunks; j++)
@@ -46,9 +49,12 @@ namespace Chipifier
 						if(sample>31) sample=31; //clamp in case we overdrived or whatever
 						if (sample < 0) throw new InvalidOperationException("oops minus 0");
 						fs.WriteByte((byte)sample);
+						sw.Write("{0}{1}", (byte)sample,i==31?"":" ");
 					}
+					sw.WriteLine();
 					fs.Close();
 				}
+				sw.Close();
 			
 				rm.WriteFile(f);
 			}

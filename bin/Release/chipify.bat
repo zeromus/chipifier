@@ -1,6 +1,7 @@
 rem cleanup from before
 del %1.*.dmw
 del %1.small.wav
+del %1.small.wav.txt
 
 rem decrease volume to a range [16,15] and resample while we're at it
 sox -D -v 0.00048829615 %1 -r 1860 %1.small.wav
