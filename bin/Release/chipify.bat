@@ -15,4 +15,6 @@ sox -D -v 0.00048828125 "%~1.TMP2.wav" "%~1.CHIPIFIED.wav"
 chipifier "%~1.CHIPIFIED.wav"
 
 :END
+del "%~1.CHIPIFIED.wav"
+ren "%~1.TMP2.wav" %~n1.CHIPIFIED.wav
 del %1.TMP*.wav
